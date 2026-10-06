@@ -38,7 +38,7 @@ let projects=[]; let cloud={cloudName:'',uploadPreset:''};
 const loginView=$('#loginView'), app=$('#app');
 function setStatus(el,msg,ok=false){el.textContent=msg;el.style.color=ok?'#65C995':'#AEBBB1'}
 async function api(url,options={}){const res=await fetch(url,{credentials:'same-origin',...options});let data={};try{data=await res.json()}catch{}if(!res.ok)throw new Error(data.error||'Request failed');return data}
-async function checkSession(){try{projects=await api('/api/projects'); try{cloud=await api('/api/config')}catch{cloud={cloudName:'',uploadPreset:''}} showApp();render();setStatus($('#saveStatus'),'Ready.',true)}catch(err){showLogin();setStatus($('#loginStatus'),'Please sign in.')}}
+async function checkSession(){try{await api('/api/session'); projects=await api('/api/projects'); try{cloud=await api('/api/config')}catch{cloud={cloudName:'',uploadPreset:''}} showApp();render();setStatus($('#saveStatus'),'Ready.',true)}catch(err){showLogin();setStatus($('#loginStatus'),'Please sign in.')}}
 function showLogin(){loginView.classList.remove('hidden');app.classList.add('hidden')}
 function showApp(){loginView.classList.add('hidden');app.classList.remove('hidden')}
 $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const status=$('#loginStatus');setStatus(status,'Signing in…');try{await api('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:$('#email').value,password:$('#password').value})}); setStatus(status,'Login successful. Loading…',true); await loadProjectsAfterLogin(); showApp()}catch(err){setStatus(status,err.message==='Request failed'?'Admin backend is not deployed. Upload the complete project folder to Netlify.':err.message)}});
