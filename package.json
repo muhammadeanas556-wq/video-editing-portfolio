@@ -1,8 +1,8 @@
 {
-  "name": "mr-nobody-video-portfolio",
+  "name": "mr-nobody-portfolio",
   "private": true,
-  "type": "module",
-  "dependencies": {
-    "@netlify/blobs": "^11.1.3"
-  }
+  "version": "1.0.0",
+  "scripts": { "test": "node test/api.test.mjs" },
+  "dependencies": { "@netlify/blobs": "^8.2.0" },
+  "engines": { "node": ">=18" }
 }

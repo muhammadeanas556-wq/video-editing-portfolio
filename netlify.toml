@@ -1,38 +1,8 @@
-[build]
-  publish = "."
-  functions = "netlify/functions"
+# Merge this into your existing netlify.toml (keep your own [build] / publish settings).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
-[[redirects]]
-  from = "/admin"
-  to = "/admin.html"
-  status = 200
-
-[[redirects]]
-  from = "/admin/"
-  to = "/admin.html"
-  status = 200
-
-[[redirects]]
-  from = "/api/login"
-  to = "/.netlify/functions/login"
-  status = 200
-
-[[redirects]]
-  from = "/api/session"
-  to = "/.netlify/functions/session"
-  status = 200
-
-[[redirects]]
-  from = "/api/logout"
-  to = "/.netlify/functions/logout"
-  status = 200
-
-[[redirects]]
-  from = "/api/projects"
-  to = "/.netlify/functions/projects"
-  status = 200
-
-[[redirects]]
-  from = "/api/config"
-  to = "/.netlify/functions/config"
-  status = 200
+# NOTE: no [[redirects]] for /api are needed. netlify/functions/api.mjs claims /api/* itself
+# (export const config.path) and accepts every HTTP method (GET/POST/PUT/DELETE).
+# Delete any OLD /api/* redirect from netlify.toml or from a _redirects file in your publish folder.
